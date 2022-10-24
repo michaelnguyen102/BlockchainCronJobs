@@ -14,19 +14,27 @@ provider:
     GAS_LIMIT: 900000
     DEFAULT_GAS_PRICE_BSC: 5000000000      
     GAS_LIMIT_BSC: 70000
-    PRIVATE_KEY: 'YOUR WALLET PRIVATE KEY'
+    STAKING_CONTRACT: '0xd12930c8deedafd788f437879cba1ad1e3908cc5'
+    REBASE_APR: 0.05
+    PRIVATE_KEY: 'WALLET PRIVATE KEY'
+    REBASE_WALLET_PRIVATE_KEY: 'WALLET PRIVATE KEY'
 
 custom:
   emitRewardSchedule: cron(0 0 ? * THU *) # Run every Thu 12AM UTC
   # - schedule: cron(0 12 * * ? *) # 12PM UTC - cron(0 0 * * Thu *)
   # - schedule: rate(62 minutes)
   # See example: https://www.serverless.com/examples/aws-node-scheduled-cron
+  rebaseTopUpSchedule: rate(8 hours) # Run every 8 hours
 
 functions:
   Emissionor:
     handler: functions/Emissionor.handler    
     events:
       - schedule: ${self:custom.emitRewardSchedule}
+  rebaseTopUp:
+    handler: functions/rebaseTopUp.handler    
+    events:
+      - schedule: ${self:custom.rebaseTopUpSchedule}
 
 plugins:
   - serverless-offline
