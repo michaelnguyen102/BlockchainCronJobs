@@ -29,10 +29,8 @@ async function sendRewards(wallet) {
 
 async function getRewardsPerEpoch(wallet) {
   //Get circulating sHEC supply from 0x75bdef24285013387a47775828bec90b91ca9a5f
-  const sHecToken = '0x75bdef24285013387a47775828bec90b91ca9a5f';
-  // Load sHectorToken contract
   const sHectorToken = new ethers.Contract(
-                                          sHecToken,
+                                          addresses.sHectorTokenAddress,
                                           abis.sHectorTokenABI,
                                           wallet);
 
